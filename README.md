@@ -4,6 +4,10 @@
 available commands:
   - cd
   - ls
+  - cat
+  - rm
+  - sudo su / sudo bash / sudo zsh
+  - passwd
   - clear
   - exit
   - python
