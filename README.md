@@ -7,7 +7,7 @@ available commands:
   - clear
   - exit
   - python
-  - python2 (if installed on the computer
+  - python2 (if installed on the computer)
   - python3
   - credits (not a real linux command)
   - help
