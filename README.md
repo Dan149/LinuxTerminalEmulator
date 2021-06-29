@@ -7,6 +7,7 @@ available commands:
   - cd
   - ls
   - cat
+  - mkdir
   - rm
   - sudo su / sudo bash / sudo zsh
   - passwd
@@ -17,6 +18,7 @@ available commands:
   - python3
   - credits (not a real linux command)
   - help
+  - sleep
 
 ## Requirements
 
