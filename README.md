@@ -6,5 +6,8 @@ available commands:
   - ls
   - clear
   - exit
-  - python3 / python
+  - python
+  - python2 (if installed on the computer
+  - python3
   - credits (not a real linux command)
+  - help
