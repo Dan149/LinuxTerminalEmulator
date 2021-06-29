@@ -16,7 +16,18 @@ class Terminal:
 	path = "/"
 	def __init__(self):
 		self.main()
-
+	def help(self):
+		print("""
+	cd: enter in a directory (use: cd [dir_name])
+	ls: list directories in the current directory (use: ls)
+	clear: clear the terminal (use: clear)
+	exit: exit LTE (use: exit)
+	python: launch your default python env in the terminal (use: python)
+	python2: launch python2, if installed on the computer (use: python2)
+	python3: launch python3 (use: python3)
+	credits: display LTE credits
+	help: display this message
+""")
 	def main(self):
 		try:
 			while self.launched:
@@ -64,6 +75,8 @@ class Terminal:
 						print("\n© Daniel Falkov (Dan149 on Github) MIT License, all rights reserved.")
 					elif select == "python":
 						term("python")
+					elif select == "python2":
+						term("python2")
 					elif select == "python3":
 						term("python3")
 					elif select == "exit":
