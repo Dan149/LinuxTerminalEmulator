@@ -16,7 +16,7 @@ class Terminal:
 	path = "/"
 	def __init__(self):
 		self.main()
-	def help(self):
+	def ltehelp(self):
 		print("""
 	cd: enter in a directory (use: cd [dir_name])
 	ls: list directories in the current directory (use: ls)
@@ -79,6 +79,8 @@ class Terminal:
 						term("python2")
 					elif select == "python3":
 						term("python3")
+					elif select == "help":
+						self.ltehelp()
 					elif select == "exit":
 						quit()
 					else:
