@@ -14,7 +14,7 @@ available commands:
 
 ## Requirements
 
-  - Python3.9
+  - Python3.9 (tutorials: <a href="https://www.youtube.com/watch?v=uDbDIhR76H4">Windows 10</a> | <a href="https://www.youtube.com/watch?v=0rg6nyanX5Y">Mac OS</a>)
 
 ## Installation & Launch
 
