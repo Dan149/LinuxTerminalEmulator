@@ -1,6 +1,8 @@
 # LinuxTerminalEmulator
 ### LTE is a python script which mimics the operation of a linux terminal, useful for beginners wishing to learn basic linux commands.
 
+For everyone who wish to learn to use the linux terminal without impacting the operation of their computer or having to install a virtual machine to test their skills.
+
 available commands:
   - cd
   - ls
