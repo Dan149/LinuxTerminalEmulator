@@ -62,6 +62,10 @@ class Terminal:
 						clear()
 					elif select == "credits":
 						print("\n© Daniel Falkov (Dan149 on Github) MIT License, all rights reserved.")
+					elif select == "python":
+						term("python")
+					elif select == "python3":
+						term("python3")
 					elif select == "exit":
 						quit()
 					else:
