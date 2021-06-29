@@ -6,4 +6,5 @@ available commands:
   - ls
   - clear
   - exit
+  - python3 / python
   - credits (not a real linux command)
