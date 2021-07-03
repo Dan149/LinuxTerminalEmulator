@@ -1,6 +1,11 @@
 # LinuxTerminalEmulator
 ### LTE is a python script which mimics the operation of a linux terminal, useful for beginners wishing to learn basic linux commands.
 
+<a href="https://github.com/Dan149/LinuxTerminalEmulator/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?label=License&style=flat" /></a>
+[![Python 3.7](https://img.shields.io/badge/Python-3.9-blue.svg)](http://www.python.org/download/)
+[![OS](https://img.shields.io/badge/Tested%20on:-Windows-purple.svg)](https://www.linux.com/what-is-linux/)
+<a href="https://twitter.com/daniel_fkv"><img src="https://img.shields.io/twitter/follow/daniel_fkv?label=Follow&style=social" /></a>
+
 For everyone who wish to learn to use the linux terminal without impacting the operation of their computer or having to install a virtual machine to test their skills.
 
 available commands:
