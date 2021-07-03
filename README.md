@@ -4,7 +4,7 @@
 <a href="https://github.com/Dan149/LinuxTerminalEmulator/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?label=License&style=flat" /></a>
 [![Python 3.7](https://img.shields.io/badge/Python-3.9-blue.svg)](http://www.python.org/download/)
 [![OS](https://img.shields.io/badge/Tested%20on:-Windows-purple.svg)](https://www.linux.com/what-is-linux/)
-<a href="https://twitter.com/daniel_fkv"><img src="https://img.shields.io/twitter/follow/daniel_fkv?label=Follow&style=social" /></a>
+<a href="https://twitter.com/daniel_fkv"><img src="https://img.shields.io/twitter/follow/daniel_fkv?label=Follow&style=social"/></a>
 
 For everyone who wish to learn to use the linux terminal without impacting the operation of their computer or having to install a virtual machine to test their skills.
 
@@ -27,7 +27,7 @@ available commands:
 
 ## Requirements
 
-  - Python3.9 (tutorials: <a href="https://www.youtube.com/watch?v=uDbDIhR76H4">Windows 10</a> | <a href="https://www.youtube.com/watch?v=0rg6nyanX5Y">Mac OS</a>)
+  - <a href="https://www.python.org">Python3.9</a> (tutorials for installation: <a href="https://www.youtube.com/watch?v=uDbDIhR76H4">Windows 10</a> | <a href="https://www.youtube.com/watch?v=0rg6nyanX5Y">Mac OS</a>).
 
 ## Installation & Launch
 
