@@ -2,6 +2,7 @@
 # COPYRIGHT Daniel Falkov, MIT License, all rights reserved. (check https://github.com/Dan149/LinuxTerminalEmulator)
 import os
 from time import sleep
+import platform
 from getpass import getpass, getuser
 from os import system as term
 
@@ -16,8 +17,8 @@ def clear():
 		term("clear")
 
 class Dir:
-	def __init__(self, name):
-		self.need_root = True
+	def __init__(self, name, need_root=True):
+		self.need_root = need_root
 		self.type = "dir"
 		self.parentdir = None
 		self.name = name
@@ -55,7 +56,7 @@ class Textfile:
 		self.name = name + ".txt"
 		self.parentdir = pdir
 		if pdir == "root": # To create a text file in the root directory.
-			self.path = "/{}".format(self.name)
+			self.path = "/{}".format(self.name) # not used anymore
 			root_dir.append(self)
 		else:
 			self.path = "/{}/{}".format(self.parentdir.name, self.name)
@@ -70,14 +71,15 @@ class Textfile:
 	def appendtext(self, text):
 		self.storedtext = self.storedtext + " " + text
 
-#root dirs :
-home = Dir("home") #arg1 = name
+# root dirs :
+home = Dir("home", False) #arg1 = name, #arg2 = need_root
 sys = Dir("sys")
 lib = Dir("lib")
 boot = Dir("boot")
 var = Dir("var")
+tmp = Dir("tmp")
 
-#home dirs (subdirs) :
+# home dirs (subdirs) :
 Desktop = Subdir("Desktop", home) #arg1 = name, arg2 = parent directory
 Documents = Subdir("Documents", home)
 Videos = Subdir("Videos", home)
@@ -85,7 +87,7 @@ Pictures = Subdir("Pictures", home)
 Music = Subdir("Music", home)
 Downloads = Subdir("Downloads", home)
 
-#text files:
+# text files:
 password = Textfile("password", Documents)
 password.writetext("HelloWorld!")
 # password.openwithoutroot(False) # need to be root in order to read or modify file
@@ -106,6 +108,44 @@ class Terminal:
 		clear()
 		print("\nLinuxTerminalEmulator alpha | Created by Dan149.\n")
 		self.main()
+
+	def reboot(self):
+		try:
+			sleep(1.5)
+			clear()
+			print("""
+	+-----------------------------------------------------------------+
+	|                                                                 |
+	|                   LTE OS alpha | Rebooting...                   |
+	|                                                                 |
+	|                                                                 |
+	|       COPYRIGHT Dan149, all rights reserved, MIT license.       |
+	|                                                                 |
+	+-----------------------------------------------------------------+
+""")
+			sleep(3)
+			print("\nAdmin Password: OK")
+			sleep(1)
+			print("Root directories: OK")
+			sleep(2)
+			if os.name == "nt":
+				print(f"OS: Windows {platform.release()} (nt)")
+			elif os.name == "posix":
+				print("OS: Linux/Mac (posix)")
+			else:
+				print(f"OS: Unknown ({os.name})")
+			sleep(1)
+			print("Modules: OK")
+			sleep(2)
+			print("User files: OK")
+			sleep(1.5)
+			print("All clear, starting up.")
+			sleep(3)
+			term("python3 script.py")
+			quit()
+		except KeyboardInterrupt:
+			print("KeyboardInterrupt")
+			quit()
 
 	def enable_root(self):
 		for x in range(3):
@@ -132,11 +172,10 @@ class Terminal:
 					if len(select_s) == 2:
 						if len(self.current_path) == 1:
 								for x in range(len(root_dir)):
-									u = x-1
-									if select_s[1] == root_dir[u].name:
-										if root_dir[u].type == "dir":
-											self.current_path.append(root_dir[u].name)
-											self.current_dir = root_dir[u]
+									if select_s[1] == root_dir[x].name:
+										if root_dir[x].type == "dir":
+											self.current_path.append(root_dir[x].name)
+											self.current_dir = root_dir[x]
 										else:
 											print("Error: cd doesn't work with text files.")
 										break
@@ -178,17 +217,16 @@ class Terminal:
 					if len(select_s) == 2:
 						if len(self.current_path) == 1:
 							for x in range(len(root_dir)):
-								u = x-1
-								if select_s[1] == root_dir[u].name:
-									if root_dir[u].type == "txt":
-										if root_dir[u].need_root == False:
-											print(root_dir[u].storedtext)
+								if select_s[1] == root_dir[x].name:
+									if root_dir[x].type == "txt":
+										if root_dir[x].need_root == False:
+											print(root_dir[x].storedtext)
 										elif self.isroot:
-											print(root_dir[u].storedtext)
+											print(root_dir[x].storedtext)
 										else:
 											self.enable_root()
 											if self.isroot:
-												print(root_dir[u].storedtext)
+												print(root_dir[x].storedtext)
 											else:
 												pass
 									else:
@@ -198,17 +236,16 @@ class Terminal:
 									pass
 						else:
 							for x in range(len(self.current_dir.content)):
-								u = x-1
-								if select_s[1] == self.current_dir.content[u].name:
-									if self.current_dir.content[u].type == "txt":
-										if self.current_dir.content[u].need_root == False:
-											print(self.current_dir.content[u].storedtext)
+								if select_s[1] == self.current_dir.content[x].name:
+									if self.current_dir.content[x].type == "txt":
+										if self.current_dir.content[x].need_root == False:
+											print(self.current_dir.content[x].storedtext)
 										elif self.isroot:
-											print(self.current_dir.content[u].storedtext)
+											print(self.current_dir.content[x].storedtext)
 										else:
 											self.enable_root()
 											if self.isroot:
-												print(self.current_dir.content[u].storedtext)
+												print(self.current_dir.content[x].storedtext)
 											else:
 												pass
 									else:
@@ -219,15 +256,13 @@ class Terminal:
 					if len(self.current_path) == 1: # check if in root dir
 						print("")
 						for x in range(len(root_dir)):
-							u = x-1
-							print(root_dir[u].name, end=" ")
+							print(root_dir[x].name, end=" ")
 						print("")
 					else:
 						if len(self.current_dir.content) > 0:
 							print("")
 							for x in range(len(self.current_dir.content)):
-								u = x-1
-								print(self.current_dir.content[u].name, end=" ")
+								print(self.current_dir.content[x].name, end=" ")
 							print("")
 						else:
 							print(f"\nFolder {self.current_dir.name} is empty.")
@@ -261,26 +296,82 @@ class Terminal:
 						else:
 							pass
 					else:
-						for x in range(len(self.current_dir.content)):
-							if select_s[1] == self.current_dir.content[x].name:
-								del self.current_dir.content[x]
-								print("Removed.")
-								break
+						if not self.current_dir.need_root:
+							for x in range(len(self.current_dir.content)):
+								if select_s[1] == self.current_dir.content[x].name:
+									del self.current_dir.content[x]
+									print("Removed.")
+									break
+								else:
+									pass
+						else:
+							if not self.isroot:
+								self.enable_root()
 							else:
 								pass
+							if self.isroot:
+								for x in range(len(self.current_dir.content)):
+									if select_s[1] == self.current_dir.content[x].name:
+										del self.current_dir.content[x]
+										print("Removed.")
+										break
+									else:
+										pass
+
 				elif select_s[0] == "mkdir":
+					make = True
 					if len(self.current_path) == 1:
 						if not self.isroot:
 							self.enable_root()
 						else:
 							pass
 						if self.isroot:
-							select_s[1] = Dir(select_s[1])
-							print("Directory created.")
+							for x in range(len(root_dir)):
+								if select_s[1] == root_dir[x].name:
+									print("Error: directory already exists.")
+									make = False
+									break
+								else:
+									pass
+							if make:
+								select_s[1] = Dir(select_s[1])
+								print("Directory created.")
+							else:
+								pass
 						else:
 							pass
 					else:
-						select_s[1] = Subdir(select_s[1], self.current_dir)
+						if not self.current_dir.need_root:
+							for x in range(len(self.current_dir.content)):
+								if select_s[1] == self.current_dir.content[x].name:
+									print("Error: directory already exists.")
+									make = False
+									break
+								else:
+									pass
+							if make:
+								select_s[1] = Subdir(select_s[1], self.current_dir)
+								print("Directory created.")
+							else:
+								pass
+						else:
+							if not self.isroot:
+								self.enable_root()
+							else:
+								pass
+							if self.isroot:
+								for x in range(len(self.current_dir.content)):
+									if select_s[1] == self.current_dir.content[x].name:
+										print("Error: directory already exists.")
+										make = False
+										break
+									else:
+										pass
+								if make:
+									select_s[1] = Subdir(select_s[1], self.current_dir)
+									print("Directory created.")
+								else:
+									pass
 
 				elif select_s[0] == "sleep":
 						if len(select_s) == 2:
@@ -293,6 +384,26 @@ class Terminal:
 				elif select == "exit":
 					self.launched = False
 					quit()
+				elif select == "reboot":
+					confirm_reboot = input("\nRebooting will reset data, continue ? [y/N]\n>> ")
+					if confirm_reboot == "yes" or confirm_reboot == "y" or confirm_reboot == "YES" or confirm_reboot == "Yes" or confirm_reboot == "Y":
+						self.launched = False
+						self.reboot()
+				elif select == "init1":
+					sleep(3)
+					clear()
+					sleep(2)
+					print("\n     Loading assets: 25%")
+					sleep(3.5)
+					clear()
+					print("\n     Loading assets: 65%")
+					sleep(2.5)
+					clear()
+					print("\n     Loading assets: 95%")
+					sleep(3)
+					clear()
+					print("\n     Loading assets: Done!")
+					sleep(2)
 				elif select == "clear":
 					clear()
 				elif select == "credits":
@@ -319,10 +430,16 @@ class Terminal:
 	sleep: sleep for an amount of time (use: sleep [seconds])
 	credits: display LTE credits
 	help: display this message
+	reboot: reload the emulator
+	init1: fake copy of the Unix command, used to correct bugs
+	shutdown: exit LTE
 	exit: exit LTE""")
 				else:
 					print("Error: command not found.")
 		except KeyboardInterrupt:
+			print("\n\nKeyboardInterrupt")
 			self.launched = False
 			quit()
+
+#   Execution   #
 Terminal()
