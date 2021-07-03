@@ -24,6 +24,8 @@ available commands:
   - credits (not a real linux command)
   - help
   - sleep
+  - reboot
+  - init1
 
 ## Requirements
 
@@ -51,7 +53,4 @@ WARNING: On Windows, don't lauch the script by double-clicking on it, it can gen
   - cp command
   - touch command
   - nano command
-  - fake init1 command
-  - fake reboot command
-  - fake shutdown command
   - make the cd command accept multiple directory input: cd dir/dir1/
