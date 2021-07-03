@@ -33,3 +33,20 @@ available commands:
 3- to launch, type: `python3 script.py`
 
 WARNING: On Windows, don't lauch the script by double-clicking on it, it can generate errors.
+
+---------------------------------------------------------------------------------------------------
+
+# Which basic things you can't do:
+  - `cd home/Desktop` | you need to type: `cd home`, `cd Desktop`. Same process for all folders.
+  - `cd /home` or others | you need to be in the root directory and type: `cd home`, and not `cd /home`, however, the `cd /`, `cd \`, `cd ~` and `cd ..` commands are working.
+
+# TO DO:
+
+  - mv command
+  - cp command
+  - touch command
+  - nano command
+  - fake init1 command
+  - fake reboot command
+  - fake shutdown command
+  - make the cd command accept multiple directory input: cd dir/dir1/
