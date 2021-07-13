@@ -32,6 +32,8 @@ class Dir:
 		print("Parent directory: " + parentdir + "\n")
 	def debug_info(self):
 		self.debug_info_template(self.name, self.path, None)
+	def deleteall(self):
+		self.content.clear()
 
 class Subdir():
 	def __init__(self, name, pdir): #pdir = parentdir
@@ -53,7 +55,7 @@ class Textfile:
 		self.need_root = False
 		self.type = "txt"
 		self.storedtext = None
-		self.name = name + ".txt"
+		self.name = name
 		self.parentdir = pdir
 		if pdir == "root": # To create a text file in the root directory.
 			self.path = "/{}".format(self.name) # not used anymore
@@ -88,7 +90,7 @@ Music = Subdir("Music", home)
 Downloads = Subdir("Downloads", home)
 
 # text files:
-password = Textfile("password", Documents)
+password = Textfile("password.txt", Documents)
 password.writetext("HelloWorld!")
 # password.openwithoutroot(False) # need to be root in order to read or modify file
 # root_text_file = Textfile("root-text-file", "root") # Example of a root text file construction
@@ -102,7 +104,7 @@ class Terminal:
 	launched = True
 	current_path = None # the path to the current directory, ["\n"] if root
 	current_dir = None # the directory you are in, None if root
-	passwd = "HelloWorld!"
+	passwd = "helloworld"
 	def __init__(self):
 		self.current_path = ["\b"] # root path init
 		clear()
@@ -293,6 +295,11 @@ class Terminal:
 									break
 								else:
 									pass
+							if select_s[1] == "*":
+								root_dir.clear()
+								print("Removed.")
+							else:
+								pass
 						else:
 							pass
 					else:
@@ -304,6 +311,12 @@ class Terminal:
 									break
 								else:
 									pass
+							if select_s[1] == "*":
+								for x in range(len(self.current_dir.content)):
+									self.current_dir.content.clear()
+								print("Removed.")
+							else:
+								pass
 						else:
 							if not self.isroot:
 								self.enable_root()
@@ -317,6 +330,12 @@ class Terminal:
 										break
 									else:
 										pass
+								if select_s[1] == "*":
+									for x in range(len(self.current_dir.content)):
+										self.current_dir.content.clear()
+									print("Removed.")
+								else:
+									pass
 
 				elif select_s[0] == "mkdir":
 					make = True
@@ -372,6 +391,52 @@ class Terminal:
 									print("Directory created.")
 								else:
 									pass
+				# elif select_s[0] == "nano":
+				# 	if len(self.current_path) == 1:
+				# 		if not self.isroot:
+				# 			self.enable_root()
+				# 		else:
+				# 			pass
+				# 		if self.isroot:
+				# 			text = []
+				# 			create = True
+				# 			writting = True
+				# 			line = 1
+				# 			print(f"Writting in {select_s[1]}, Ctrl+C to save and exit.")
+				# 			try:
+				# 				while writting:
+				# 					towrite = input(f"line {line} | ")
+				# 					text.append(towrite)
+				# 					line = line + 1
+				# 			except KeyboardInterrupt:
+				# 				break
+				# 				for x in range(len(root_dir)):
+				# 					if select_s[1] == root_dir[x].name:
+				# 						if root_dir[x].type == "txt":
+				# 							for x in range(len(text)):
+				# 								root_dir[x].appendtext("\n" + towrite)
+				# 							create = False
+				# 							break
+				# 						else:
+				# 							print("Error: nano only work with text files.")
+				# 							create = False
+				# 							break
+				# 					else:
+				# 						pass
+				# 				if create:
+				# 					select_s[1] = Textfile(select_s[1], "root")
+				# 					print(f"Writting in {select_s[1]}, Ctrl+C to save and exit.")
+				# 					try:
+				# 						while writting:
+				# 							towrite = input(f"line {line} | ")
+				# 							text.append(towrite)
+				# 							line = line + 1
+				# 					except KeyboardInterrupt:
+				# 						break
+				# 						for x in range(len(text)):
+				# 							select_s[1].writetext(towrite + "\n")
+				# 		else:
+				# 			pass
 
 				elif select_s[0] == "sleep":
 						if len(select_s) == 2:
@@ -381,9 +446,12 @@ class Terminal:
 							print("Error: sleep take one argument: sleep [seconds]")
 				elif select == "sudo su" or select == "sudo bash" or select == "sudo zsh":
 					self.enable_root()
-				elif select == "exit":
-					self.launched = False
-					quit()
+				elif select == "exit" or select == "logout":
+					if self.isroot:
+						self.isroot = False
+					else:
+						self.launched = False
+						quit()
 				elif select == "reboot":
 					confirm_reboot = input("\nRebooting will reset data, continue ? [y/N]\n>> ")
 					if confirm_reboot == "yes" or confirm_reboot == "y" or confirm_reboot == "YES" or confirm_reboot == "Yes" or confirm_reboot == "Y":
@@ -393,13 +461,13 @@ class Terminal:
 					sleep(3)
 					clear()
 					sleep(2)
-					print("\n     Loading assets: 25%")
+					print("\n     Loading assets.")
 					sleep(3.5)
 					clear()
-					print("\n     Loading assets: 65%")
+					print("\n     Loading assets..")
 					sleep(2.5)
 					clear()
-					print("\n     Loading assets: 95%")
+					print("\n     Loading assets...")
 					sleep(3)
 					clear()
 					print("\n     Loading assets: Done!")
