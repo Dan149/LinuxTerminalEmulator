@@ -5,6 +5,7 @@ from time import sleep
 import platform
 from getpass import getpass, getuser
 from os import system as term
+from datetime import datetime
 
 root_dir = []
 sub_dirs = []
@@ -16,7 +17,7 @@ def clear():
 	else:
 		term("clear")
 
-class Dir:
+class RootDir:
 	def __init__(self, name, need_root=True):
 		self.need_root = need_root
 		self.type = "dir"
@@ -35,7 +36,7 @@ class Dir:
 	def deleteall(self):
 		self.content.clear()
 
-class Subdir():
+class SubDir():
 	def __init__(self, name, pdir): #pdir = parentdir
 		self.need_root = False # default
 		self.type = "dir"
@@ -54,7 +55,7 @@ class Textfile:
 	def __init__(self, name, pdir):
 		self.need_root = False
 		self.type = "txt"
-		self.storedtext = None
+		self.storedtext = ""
 		self.name = name
 		self.parentdir = pdir
 		if pdir == "root": # To create a text file in the root directory.
@@ -74,24 +75,32 @@ class Textfile:
 		self.storedtext = self.storedtext + " " + text
 
 # root dirs :
-home = Dir("home", False) #arg1 = name, #arg2 = need_root
-sys = Dir("sys")
-lib = Dir("lib")
-boot = Dir("boot")
-var = Dir("var")
-tmp = Dir("tmp")
-
-# home dirs (subdirs) :
-Desktop = Subdir("Desktop", home) #arg1 = name, arg2 = parent directory
-Documents = Subdir("Documents", home)
-Videos = Subdir("Videos", home)
-Pictures = Subdir("Pictures", home)
-Music = Subdir("Music", home)
-Downloads = Subdir("Downloads", home)
+home = RootDir("home", False) #arg1 = name, #arg2 = need_root
+sys = RootDir("sys")
+lib = RootDir("lib")
+boot = RootDir("boot")
+var = RootDir("var")
+tmp = RootDir("tmp")
+media = RootDir("media")
+userhome = SubDir(str(getuser()), home)
+# user home dirs (subdirs) :
+Desktop = SubDir("Desktop", userhome) #arg1 = name, arg2 = parent directory
+Documents = SubDir("Documents", userhome)
+Videos = SubDir("Videos", userhome)
+Pictures = SubDir("Pictures", userhome)
+Music = SubDir("Music", userhome)
+Downloads = SubDir("Downloads", userhome)
 
 # text files:
 password = Textfile("password.txt", Documents)
-password.writetext("HelloWorld!")
+logfile = Textfile("log.txt", tmp)
+logfile.openwithoutroot(False)
+password.writetext("helloworld")
+
+def log_event(event, subject):
+	now = datetime.now()
+	logdt = "[{}|{}]".format(now.strftime("%H:%M:%S"), str(datetime.today()).split()[0])
+	logfile.appendtext(f"\n{logdt} {subject}: {event}")
 # password.openwithoutroot(False) # need to be root in order to read or modify file
 # root_text_file = Textfile("root-text-file", "root") # Example of a root text file construction
 # root_text_file.writetext("I'm in the root directory !")
@@ -99,6 +108,7 @@ password.writetext("HelloWorld!")
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 class Terminal:
+	log_event("LTE start.", "[INFO]")
 	executed = False # used by the "cd" command
 	isroot = False
 	launched = True
@@ -155,9 +165,11 @@ class Terminal:
 			if enter_passwd == self.passwd:
 				self.isroot = True
 				print("You are now root.")
+				log_event("Root user enabled.", "[INFO]")
 				break
 			else:
 				print("Wrong password, try again.")
+				log_event("Root user upgrade failed.", "[ERROR]")
 	def print_path(self):
 		path = "/".join(self.current_path)
 		return path
@@ -277,8 +289,10 @@ class Terminal:
 						if change_passwd == confirm_passwd:
 							self.passwd = confirm_passwd
 							password.writetext(self.passwd)
+							log_event("Root user password changed.", "[INFO]")
 						else:
 							print("Error: confirmation failed.")
+							log_event("Root user password change failed", "[ERROR]")
 					else:
 						pass
 				elif select_s[0] == "rm":
@@ -478,10 +492,13 @@ class Terminal:
 					print("\n © Daniel Falkov (Dan149 on Github) all rights reserved, MIT License.")
 				elif select == "python":
 					term("python")
+					log_event("Launching default Python.", "[INFO]")
 				elif select == "python2":
 					term("python2")
+					log_event("Launching Python2.", "[INFO]")
 				elif select == "python3":
 					term("python3")
+					log_event("Launching Python3.", "[INFO]")
 				elif select == "help" or select == "?":
 					print("""
 	sudo su / sudo bash / sudo zsh: become root (admin password required)
@@ -504,6 +521,7 @@ class Terminal:
 	exit: exit LTE""")
 				else:
 					print("Error: command not found.")
+					log_event(f"Command '{select}' not found.", "[ERROR]")
 		except KeyboardInterrupt:
 			print("\n\nKeyboardInterrupt")
 			self.launched = False
