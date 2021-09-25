@@ -4,6 +4,7 @@ import os
 from time import sleep
 import platform
 from getpass import getpass, getuser
+from random import randint
 from os import system as term
 from datetime import datetime
 
@@ -105,7 +106,7 @@ def log_event(event, subject):
 # root_text_file = Textfile("root-text-file", "root") # Example of a root text file construction
 # root_text_file.writetext("I'm in the root directory !")
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 class Terminal:
 	log_event("LTE start.", "[INFO]")
@@ -146,13 +147,13 @@ class Terminal:
 				print("OS: Linux/Mac (posix)")
 			else:
 				print(f"OS: Unknown ({os.name})")
-			sleep(1)
+			sleep(randint(1,3))
 			print("Modules: OK")
-			sleep(2)
+			sleep(randint(1,3))
 			print("User files: OK")
-			sleep(1.5)
+			sleep(randint(1,3))
 			print("All clear, starting up.")
-			sleep(3)
+			sleep(randint(1,3))
 			term("python3 script.py")
 			quit()
 		except KeyboardInterrupt:
