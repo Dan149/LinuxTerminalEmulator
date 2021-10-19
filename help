@@ -1,0 +1,18 @@
+	sudo su / sudo bash / sudo zsh: become root (admin password required)
+	cd: enter in a directory (use: cd [dir_name])
+	cat: display the content of a textfile (use: cat [file_name])
+	mkdir: create a new directory (use: mkdir [new_dir_name])
+	rm: remove a file (use: rm [dir_or_file_name]), root required
+	ls: list directories in the current directory
+	clear: clear the terminal
+	python: launch your default python env in the terminal
+	python2: launch python2, if installed on the computer
+	python3: launch python3
+	passwd: change password (admin password required)
+	sleep: sleep for an amount of time (use: sleep [seconds])
+	credits: display LTE credits
+	help: display this message
+	reboot: reload the emulator
+	init1: fake copy of the Unix command, used to correct bugs
+	shutdown: exit LTE
+	exit: exit LTE
