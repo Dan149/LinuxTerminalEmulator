@@ -7,7 +7,7 @@ from getpass import getpass, getuser
 from random import randint
 from os import system as term
 from datetime import datetime
-
+__version__ = "v0.1a"
 root_dir = []
 sub_dirs = []
 
@@ -98,7 +98,7 @@ logfile = Textfile("log.txt", tmp)
 logfile.openwithoutroot(False)
 password.writetext("helloworld")
 
-def log_event(event, subject):
+def log_event(event, subject): # [00:00:00|2000-00-00] subject: event
 	now = datetime.now()
 	logdt = "[{}|{}]".format(now.strftime("%H:%M:%S"), str(datetime.today()).split()[0])
 	logfile.appendtext(f"\n{logdt} {subject}: {event}")
@@ -119,7 +119,7 @@ class Terminal:
 	def __init__(self):
 		self.current_path = ["\b"] # root path init
 		clear()
-		print("\nLinuxTerminalEmulator alpha | Created by Dan149.\n")
+		print(f"\nLinuxTerminalEmulator {__version__} | Created by Dan149.\n")
 		self.main()
 
 	def reboot(self):
@@ -297,47 +297,29 @@ class Terminal:
 					else:
 						pass
 				elif select_s[0] == "rm":
-					if len(self.current_path) == 1:
-						if not self.isroot:
-							self.enable_root()
-						else:
-							pass
-						if self.isroot:
-							for x in range(len(root_dir)):
-								if select_s[1] == root_dir[x].name:
-									del root_dir[x]
-									print("Removed.")
-									break
-								else:
-									pass
-							if select_s[1] == "*":
-								root_dir.clear()
-								print("Removed.")
-							else:
-								pass
-						else:
-							pass
-					else:
-						if not self.current_dir.need_root:
-							for x in range(len(self.current_dir.content)):
-								if select_s[1] == self.current_dir.content[x].name:
-									del self.current_dir.content[x]
-									print("Removed.")
-									break
-								else:
-									pass
-							if select_s[1] == "*":
-								for x in range(len(self.current_dir.content)):
-									self.current_dir.content.clear()
-								print("Removed.")
-							else:
-								pass
-						else:
+					if len(select_s) == 2:
+						if len(self.current_path) == 1:
 							if not self.isroot:
 								self.enable_root()
 							else:
 								pass
 							if self.isroot:
+								for x in range(len(root_dir)):
+									if select_s[1] == root_dir[x].name:
+										del root_dir[x]
+										print("Removed.")
+										break
+									else:
+										pass
+								if select_s[1] == "*":
+									root_dir.clear()
+									print("Removed.")
+								else:
+									pass
+							else:
+								pass
+						else:
+							if not self.current_dir.need_root:
 								for x in range(len(self.current_dir.content)):
 									if select_s[1] == self.current_dir.content[x].name:
 										del self.current_dir.content[x]
@@ -351,6 +333,27 @@ class Terminal:
 									print("Removed.")
 								else:
 									pass
+							else:
+								if not self.isroot:
+									self.enable_root()
+								else:
+									pass
+								if self.isroot:
+									for x in range(len(self.current_dir.content)):
+										if select_s[1] == self.current_dir.content[x].name:
+											del self.current_dir.content[x]
+											print("Removed.")
+											break
+										else:
+											pass
+									if select_s[1] == "*":
+										for x in range(len(self.current_dir.content)):
+											self.current_dir.content.clear()
+										print("Removed.")
+									else:
+										pass
+					else:
+						print("Error: wrong argument.")
 
 				elif select_s[0] == "mkdir":
 					make = True
@@ -368,7 +371,7 @@ class Terminal:
 								else:
 									pass
 							if make:
-								select_s[1] = Dir(select_s[1])
+								select_s[1] = RootDir(select_s[1])
 								print("Directory created.")
 							else:
 								pass
@@ -384,7 +387,7 @@ class Terminal:
 								else:
 									pass
 							if make:
-								select_s[1] = Subdir(select_s[1], self.current_dir)
+								select_s[1] = SubDir(select_s[1], self.current_dir)
 								print("Directory created.")
 							else:
 								pass
@@ -402,7 +405,7 @@ class Terminal:
 									else:
 										pass
 								if make:
-									select_s[1] = Subdir(select_s[1], self.current_dir)
+									select_s[1] = SubDir(select_s[1], self.current_dir)
 									print("Directory created.")
 								else:
 									pass
@@ -464,6 +467,7 @@ class Terminal:
 				elif select == "exit" or select == "logout":
 					if self.isroot:
 						self.isroot = False
+						log_event("Root user disabled.", "[INFO]")
 					else:
 						self.launched = False
 						quit()
@@ -505,6 +509,8 @@ class Terminal:
 					hlp = fhlp.read()
 					fhlp.close()
 					print(hlp)
+				elif select == "version":
+					print(f"LinuxTerminalEmulator {__version__}")
 				else:
 					print("Error: command not found.")
 					log_event(f"Command '{select}' not found.", "[ERROR]")
