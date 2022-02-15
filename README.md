@@ -42,7 +42,12 @@ available commands:
 WARNING: On Windows, don't lauch the script by double-clicking on it, it can generate errors.
 
 ---------------------------------------------------------------------------------------------------
-
+## What's new in version 0.1a ?
+New feature: logging:
+  In the /tmp root directory, there is a file called `log.txt`, using the root user, you can acces LTE logs by using the command `cat log.txt`.
+Root user specs:
+  In order to get root access of the system, you need to find the password of the root user, the password is stored in a textfile somewhere in the /home/{user} directory, good luck !
+---------------------------------------------------------------------------------------------------
 # Unsupported basic commands:
   - `cd home/Desktop` | you need to type: `cd home`, `cd Desktop`. Same process for all folders.
   - `cd /home` or others | you need to be in the root directory and type: `cd home`, and not `cd /home`, however, the `cd /`, `cd \`, `cd ~` and `cd ..` commands are working.
