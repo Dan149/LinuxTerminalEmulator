@@ -308,12 +308,14 @@ class Terminal:
 									if select_s[1] == root_dir[x].name:
 										del root_dir[x]
 										print("Removed.")
+										log_event(f"Root directory '{select_s[1]}' removed", "[INFO]")
 										break
 									else:
 										pass
 								if select_s[1] == "*":
 									root_dir.clear()
 									print("Removed.")
+									log_event("Root directories removed", "[INFO]")
 								else:
 									pass
 							else:
@@ -324,6 +326,7 @@ class Terminal:
 									if select_s[1] == self.current_dir.content[x].name:
 										del self.current_dir.content[x]
 										print("Removed.")
+										log_event(f"Directory '{select_s[1]}' removed", "[INFO]")
 										break
 									else:
 										pass
@@ -331,6 +334,7 @@ class Terminal:
 									for x in range(len(self.current_dir.content)):
 										self.current_dir.content.clear()
 									print("Removed.")
+									log_event("Directories removed", "[INFO]")
 								else:
 									pass
 							else:
@@ -343,6 +347,7 @@ class Terminal:
 										if select_s[1] == self.current_dir.content[x].name:
 											del self.current_dir.content[x]
 											print("Removed.")
+											log_event(f"Directory '{select_s[1]}' removed", "[INFO]")
 											break
 										else:
 											pass
@@ -350,6 +355,7 @@ class Terminal:
 										for x in range(len(self.current_dir.content)):
 											self.current_dir.content.clear()
 										print("Removed.")
+										log_event("Directories removed", "[INFO]")
 									else:
 										pass
 					else:
@@ -509,6 +515,11 @@ class Terminal:
 					hlp = fhlp.read()
 					fhlp.close()
 					print(hlp)
+				elif select == "whoami":
+					if self.isroot :
+						print("root")
+					else:
+						print(getuser())
 				elif select == "version":
 					print(f"LinuxTerminalEmulator {__version__}")
 				else:
