@@ -56,7 +56,7 @@ Root user specs:
 ---------------------------------------------------------------------------------------------------
 # Unsupported basic commands:
   - `cd home/Desktop` | you need to type: `cd home`, `cd Desktop`. Same process for all folders.
-  - `cd /home` or others | you need to be in the root directory and type: `cd home`, and not `cd /home`, however, the `cd /`, `cd \`, `cd ~` and `cd ..` commands are working.
+  - `cd ./home` or others | you need to be in the root directory and type: `cd home`, and not `cd ./home`, however, the `cd /`, `cd \`, `cd ~` and `cd ..` commands are working.
 
 # // TO DO:
 
